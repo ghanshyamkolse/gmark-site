@@ -480,6 +480,21 @@ img, svg { display: block; }
 .download-fallback a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
 .download-fallback a:hover { color: #ffd34d; }
 
+/* ------- SCREENSHOTS ------- */
+.shot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 28px; }
+.shot { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+.shot:hover { border-color: rgba(245,179,1,0.28); box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+.shot-btn { display: block; width: 100%; border: 0; padding: 0; background: #0b0d1a; cursor: zoom-in; }
+.shot-btn img { width: 100%; height: auto; aspect-ratio: 1200 / 750; object-fit: cover; display: block; }
+.shot figcaption { padding: 12px 14px 14px; font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.shot figcaption b { color: var(--ink); }
+.lightbox { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.lightbox[hidden] { display: none !important; }
+.lightbox-backdrop { position: absolute; inset: 0; background: rgba(7,9,18,0.82); backdrop-filter: blur(6px); border: 0; cursor: pointer; }
+.lightbox-inner { position: relative; max-width: min(1200px, 96vw); max-height: 88vh; background: #0b0d1a; border: 1px solid rgba(245,179,1,0.22); border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.6); }
+.lightbox-inner img { display: block; max-width: 100%; max-height: 88vh; width: auto; height: auto; }
+.lightbox-x { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.55); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; }
+
 /* ------- FOOTER ------- */
 .footer { background: #070912; border-top: 1px solid rgba(245,179,1,0.14); color: #8f98b8; padding: 44px 0 28px; }
 .footer-inner { display: grid; gap: 18px; }
@@ -493,7 +508,7 @@ img, svg { display: block; }
 @media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; gap: 44px; }
   .hero-visual { max-width: 480px; }
-  .feature-grid, .why-grid, .price-grid { grid-template-columns: 1fr 1fr; }
+  .feature-grid, .why-grid, .price-grid, .shot-grid { grid-template-columns: 1fr 1fr; }
   .price-card.featured { transform: none; }
   .support-card { flex-direction: column; align-items: flex-start; }
 }

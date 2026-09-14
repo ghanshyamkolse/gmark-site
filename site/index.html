@@ -83,6 +83,7 @@
     </a>
     <nav class="nav-links" id="nav-links">
       <a href="#features">Features</a>
+      <a href="#screenshots">Screens</a>
       <a href="#why">Why GMARK</a>
       <a href="#included">What&rsquo;s included</a>
       <a href="#pricing">Pricing</a>
@@ -212,6 +213,58 @@
 
   </div>
 </section>
+
+<!-- ============ SCREENS ============ -->
+<section class="section container" id="screenshots">
+  <p class="eyebrow center">Screens</p>
+  <h2 class="section-title">See it before you install it.</h2>
+  <p class="section-note">Click any screen to enlarge. Mockups of the real app — same layout, same flows.</p>
+  <div class="shot-grid">
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/dashboard.svg" aria-label="Enlarge Command Center screenshot">
+        <img src="assets/screenshots/dashboard.svg" alt="GMARK Command Center — occupancy, revenue, kitchen SLA and recent activity" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Command Center</b> — occupancy, revenue, kitchen SLA at a glance</figcaption>
+    </figure>
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/restaurant.svg" aria-label="Enlarge Restaurant Floor screenshot">
+        <img src="assets/screenshots/restaurant.svg" alt="GMARK Restaurant Floor — table grid and order with GST split" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Restaurant Floor</b> — tap a table, fire the KOT, bill in seconds</figcaption>
+    </figure>
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/kitchen.svg" aria-label="Enlarge Kitchen Queue screenshot">
+        <img src="assets/screenshots/kitchen.svg" alt="GMARK Kitchen Display — tickets by status with delay warnings" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Kitchen Queue (KDS)</b> — preparing → ready → served, with delay alerts</figcaption>
+    </figure>
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/rooms.svg" aria-label="Enlarge Rooms and Folio screenshot">
+        <img src="assets/screenshots/rooms.svg" alt="GMARK Rooms and Folio — room grid and guest folio with GST" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Rooms &amp; Folio</b> — room grid, bookings, folio that follows the guest</figcaption>
+    </figure>
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/billing.svg" aria-label="Enlarge Billing and GST screenshot">
+        <img src="assets/screenshots/billing.svg" alt="GMARK Billing and GST — tax invoice with CGST SGST split and sales register" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Billing &amp; GST</b> — CGST+SGST invoices, sales register for your CA</figcaption>
+    </figure>
+    <figure class="shot">
+      <button class="shot-btn" data-shot="assets/screenshots/inventory.svg" aria-label="Enlarge Inventory screenshot">
+        <img src="assets/screenshots/inventory.svg" alt="GMARK Inventory — stock levels, purchases and low-stock alerts" loading="lazy" width="1200" height="750" />
+      </button>
+      <figcaption><b>Inventory</b> — suppliers, purchases, stock and low-stock alerts</figcaption>
+    </figure>
+  </div>
+</section>
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-backdrop" id="lightbox-close" aria-label="Close"></button>
+  <div class="lightbox-inner" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+    <button class="lightbox-x" id="lightbox-x" aria-label="Close">×</button>
+    <img id="lightbox-img" alt="" />
+  </div>
+</div>
 
 <!-- ============ WHY ============ -->
 <section class="section section-alt" id="why">
@@ -410,6 +463,23 @@
         }
       })
       .catch(function () { /* offline/API blocked: leave direct download link as-is */ });
+  })();
+  // Screenshots lightbox
+  (function () {
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    if (!lb || !lbImg) return;
+    function open(src, alt) { lbImg.src = src; lbImg.alt = alt || ''; lb.hidden = false; document.body.style.overflow = 'hidden'; }
+    function close() { lb.hidden = true; lbImg.removeAttribute('src'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.shot-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var img = btn.querySelector('img');
+        open(btn.getAttribute('data-shot'), img ? img.alt : '');
+      });
+    });
+    document.getElementById('lightbox-close').addEventListener('click', close);
+    document.getElementById('lightbox-x').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) close(); });
   })();
 </script>
 </body>
