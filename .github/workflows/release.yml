@@ -1,0 +1,57 @@
+name: Publish installer release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create/update (e.g. v1.0.0)"
+        required: true
+        default: "v1.0.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check for installer binary
+        id: check
+        run: |
+          if [ -f "installer/GMARK-Installer.exe" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            ls -lh installer/GMARK-Installer.exe
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No installer/GMARK-Installer.exe found — release will be created without a binary asset."
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.value }}
+          name: GMARK ${{ steps.tag.outputs.value }}
+          body: |
+            GMARK for Windows — 30-day free trial, seeded demo hotel included.
+
+            **Install:** download `GMARK-Installer.exe` below and run it on Windows 10/11.
+
+            No internet required. Your data stays on your property.
+          files: ${{ steps.check.outputs.found == 'true' && 'installer/GMARK-Installer.exe' || '' }}
+          fail_on_unmatched_files: false
+          make_latest: true
